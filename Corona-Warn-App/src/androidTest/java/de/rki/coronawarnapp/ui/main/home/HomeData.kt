@@ -33,13 +33,27 @@ import org.joda.time.Instant
 object HomeData {
 
     object Tracing {
-        val LOW_RISK_ITEM = LowRiskCard.Item(
+
+        val LOW_RISK_ITEM_NO_ENCOUNTERS = LowRiskCard.Item(
             state = LowRisk(
                 riskState = RiskState.LOW_RISK,
                 isInDetailsMode = false,
                 lastExposureDetectionTime = Instant.now(),
                 allowManualUpdate = false,
-                daysWithEncounters = 1,
+                daysWithEncounters = 0,
+                activeTracingDays = 1
+            ),
+            onCardClick = {},
+            onUpdateClick = {}
+        )
+
+        val LOW_RISK_ITEM_WITH_ENCOUNTERS = LowRiskCard.Item(
+            state = LowRisk(
+                riskState = RiskState.LOW_RISK,
+                isInDetailsMode = false,
+                lastExposureDetectionTime = Instant.now(),
+                allowManualUpdate = false,
+                daysWithEncounters = 2,
                 activeTracingDays = 1
             ),
             onCardClick = {},

@@ -2,12 +2,9 @@ package de.rki.coronawarnapp.ui.main.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.ShareTestResultNotificationService
@@ -47,7 +44,6 @@ import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
-import testhelpers.recyclerScrollTo
 import timber.log.Timber
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.locale.LocaleTestRule
@@ -109,15 +105,22 @@ class HomeFragmentTest : BaseUITest() {
 
     @Screenshot
     @Test
-    fun capture_screenshot_low_risk() {
+    fun capture_screenshot_low_risk_no_encounters() {
         every { viewModel.homeItems } returns itemsLiveData(
-            HomeData.Tracing.LOW_RISK_ITEM
+            HomeData.Tracing.LOW_RISK_ITEM_NO_ENCOUNTERS
         )
 
-        captureScreenshot("low_risk")
-        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo())
-        Thread.sleep(SCREENSHOT_DELAY_TIME)
-        Screengrab.screenshot(HomeFragment::class.simpleName.plus("low_risk_2"))
+        captureScreenshot("low_risk_no_encounters")
+    }
+
+    @Screenshot
+    @Test
+    fun capture_screenshot_low_risk_with_encounters() {
+        every { viewModel.homeItems } returns itemsLiveData(
+            HomeData.Tracing.LOW_RISK_ITEM_WITH_ENCOUNTERS
+        )
+
+        captureScreenshot("low_risk_with_encounters")
     }
 
     @Screenshot
@@ -228,7 +231,7 @@ class HomeFragmentTest : BaseUITest() {
     }
 
     private fun itemsLiveData(
-        tracingStateItem: TracingStateItem = HomeData.Tracing.LOW_RISK_ITEM,
+        tracingStateItem: TracingStateItem = HomeData.Tracing.LOW_RISK_ITEM_WITH_ENCOUNTERS,
         submissionTestResultItem: TestResultItem = HomeData.Submission.TEST_UNREGISTERED_ITEM
     ): LiveData<List<HomeItem>> =
         MutableLiveData(

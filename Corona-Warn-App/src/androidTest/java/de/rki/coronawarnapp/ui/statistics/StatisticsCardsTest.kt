@@ -106,7 +106,10 @@ class StatisticsCardsTest : BaseUITest() {
             every { tracingHeaderState } returns MutableLiveData(TracingHeaderState.TracingActive)
             every { showLoweredRiskLevelDialog } returns MutableLiveData()
             every { popupEvents } returns SingleLiveEvent()
-            every { homeItems } returns itemsLiveData(HomeData.Tracing.LOW_RISK_ITEM, statsData = statisticsData)
+            every { homeItems } returns itemsLiveData(
+                HomeData.Tracing.LOW_RISK_ITEM_WITH_ENCOUNTERS,
+                statsData = statisticsData
+            )
         }
 
         setupMockViewModel(
@@ -136,7 +139,7 @@ class StatisticsCardsTest : BaseUITest() {
     }
 
     private fun itemsLiveData(
-        tracingStateItem: TracingStateItem = HomeData.Tracing.LOW_RISK_ITEM,
+        tracingStateItem: TracingStateItem = HomeData.Tracing.LOW_RISK_ITEM_WITH_ENCOUNTERS,
         submissionTestResultItem: TestResultItem = HomeData.Submission.TEST_UNREGISTERED_ITEM,
         statsData: StatisticsData? = null
     ): LiveData<List<HomeItem>> =
